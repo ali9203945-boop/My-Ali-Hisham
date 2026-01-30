@@ -1,24 +1,19 @@
 name: Android Build
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Rename Files
-        run: |
-          mv "main (1).py" main.py || true
-          mv "buildozer (1).spec" buildozer.spec || true
-
-      - name: Build APK with Buildozer
-        uses: ArtemSerebriakov/buildozer-action@v1
+      - uses: actions/checkout@v4
+      - name: Build with Buildozer
+        uses: ArtemSerebriakov/buildozer-action@v1.6.1
         with:
           command: buildozer android debug
-          
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: my-final-app
+          name: My-App
           path: bin/*.apk
